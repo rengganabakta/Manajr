@@ -1,19 +1,90 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-</head>
-<body>
-    <div class="card mb-3">
-        <img src="..." class="card-img-top" alt="...">
-        <div class="card-body">
-          <h5 class="card-title">Card title</h5>
-          <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
-          <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css"
+      integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
+      crossorigin="anonymous"
+    />
+    <title>Task Manajer</title>
+  </head>
+  <body>
+    <div class="container mt-5">
+      <h1>ADD TASK</h1>
+      <form id="simple-form">
+        <!-- Input Task Name -->
+        <div class="form-group">
+          <input
+            type="text"
+            class="form-control"
+            id="name"
+            name="name"
+            placeholder="New Task Name"
+            required
+          />
         </div>
-      </div>
 
-</body>
+        <!-- Input Description -->
+        <div class="form-group">
+          <input
+            type="text"
+            class="form-control"
+            id="description"
+            name="description"
+            placeholder="Description"
+            required
+          />
+        </div>
+
+        <!-- Tombol Submit -->
+        <button type="submit" class="btn btn-primary">Kirim</button>
+        <button class="btn btn-secondary" type="button">
+          <a href="index.html" style="text-decoration: none; color: white;">Back Home</a>
+        </button>
+        
+      </form>
+    </div>
+
+    <script>
+      document.getElementById("simple-form").addEventListener("submit", function (event) {
+        event.preventDefault(); // Cegah reload halaman
+
+        // Ambil nilai input dari form
+        const name = document.getElementById("name").value;
+        const description = document.getElementById("description").value;
+
+        // Buat data payload yang akan dikirim ke API
+        const taskData = {
+          title: name,
+          description: description,
+        };
+
+        // Kirim data menggunakan fetch ke endpoint /add-tasks
+        fetch("http://127.0.0.1:5000/add-tasks", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json", // Tentukan format data JSON
+          },
+          body: JSON.stringify(taskData), // Konversi data ke JSON
+        })
+          .then((response) => {
+            if (!response.ok) {
+              throw new Error("Failed to send task data");
+            }
+            return response.json();
+          })
+          .then((data) => {
+            alert("Task successfully added!");
+            console.log(data);
+          })
+          .catch((error) => {
+            console.error("Error:", error);
+            alert("Error adding task!");
+          });
+      });
+    </script>
+  </body>
 </html>
