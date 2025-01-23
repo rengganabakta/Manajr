@@ -35,12 +35,13 @@
             <div class="card mb-3">
                 <div class="card-body">
                 <h5 class="card-title">${task.title}</h5>
+                <hr>
                 <p class="card-text">${
                   task.description || "No description available."
                 }</p>
                 <p class="card-text">
                     <small class="text-muted">
-                    Status: ${task.done === 1 ? "Completed" : "Pending"}
+                    Status: ${task.done === 1 ? "Completed" : "On Progress"}
                     </small>
                 </p>
                 </div>
